@@ -164,7 +164,7 @@ class MultiPartParser(BaseParser):
         `data` will be a :class:`QueryDict` containing all the form parameters.
         `files` will be a :class:`QueryDict` containing all the form files.
         """
-        upload_handlers = self.view.request._get_upload_handlers()
+        upload_handlers = self.view.request.upload_handlers
         try:
             django_parser = DjangoMultiPartParser(self.view.request.META, stream, upload_handlers)
             return django_parser.parse()
