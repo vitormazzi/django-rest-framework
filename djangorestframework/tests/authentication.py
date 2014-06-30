@@ -1,4 +1,5 @@
-from django.conf.urls.defaults import patterns
+import json
+from django.conf.urls import patterns
 from django.contrib.auth.models import User
 from django.test import Client, TestCase
 
@@ -94,7 +95,7 @@ class SessionAuthTests(TestCase):
         Ensure PUTting form over session authentication with logged in user and CSRF token passes.
         """
         self.non_csrf_client.login(username=self.username, password=self.password)
-        response = self.non_csrf_client.put('/', {'example': 'example'})
+        response = self.non_csrf_client.put('/', json.dumps({'example': 'example'}), content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
     def test_post_form_session_auth_failing(self):
