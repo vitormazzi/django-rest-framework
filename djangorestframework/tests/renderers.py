@@ -57,14 +57,14 @@ class HTMLView(View):
     renderers = (DocumentingHTMLRenderer, )
 
     def get(self, request, **kwargs):
-        return 'text' 
+        return 'text'
 
 
 class HTMLView1(View):
     renderers = (DocumentingHTMLRenderer, JSONRenderer)
 
     def get(self, request, **kwargs):
-        return 'text' 
+        return 'text'
 
 urlpatterns = patterns('',
     url(r'^.*\.(?P<format>.+)$', MockView.as_view(renderers=[RendererA, RendererB])),
@@ -302,15 +302,15 @@ class XMLRendererTestCase(TestCase):
     """
 
     _complex_data = {
-        "creation_date": datetime.datetime(2011, 12, 25, 12, 45, 00), 
-        "name": "name", 
+        "creation_date": datetime.datetime(2011, 12, 25, 12, 45, 00),
+        "name": "name",
         "sub_data_list": [
             {
-                "sub_id": 1, 
+                "sub_id": 1,
                 "sub_name": "first"
-            }, 
+            },
             {
-                "sub_id": 2, 
+                "sub_id": 2,
                 "sub_name": "second"
             }
         ]
@@ -365,12 +365,12 @@ class XMLRendererTestCase(TestCase):
         renderer = XMLRenderer(None)
         content = renderer.render({'field': None}, 'application/xml')
         self.assertXMLContains(content, '<field></field>')
-        
+
     def test_render_complex_data(self):
         """
         Test XML rendering.
         """
-        renderer = XMLRenderer(None)            
+        renderer = XMLRenderer(None)
         content = renderer.render(self._complex_data, 'application/xml')
         self.assertXMLContains(content, '<sub_name>first</sub_name>')
         self.assertXMLContains(content, '<sub_name>second</sub_name>')
@@ -379,9 +379,9 @@ class XMLRendererTestCase(TestCase):
         """
         Test XML rendering.
         """
-        renderer = XMLRenderer(None)            
+        renderer = XMLRenderer(None)
         content = StringIO(renderer.render(self._complex_data, 'application/xml'))
-        
+
         parser = XMLParser(None)
         complex_data_out, dummy = parser.parse(content)
         error_msg = "complex data differs!IN:\n %s \n\n OUT:\n %s" % (repr(self._complex_data), repr(complex_data_out))
@@ -404,7 +404,7 @@ class Issue122Tests(TestCase):
         Test if no infinite recursion occurs.
         """
         resp = self.client.get('/html')
-        
+
     def test_html_renderer_is_first(self):
         """
         Test if no infinite recursion occurs.

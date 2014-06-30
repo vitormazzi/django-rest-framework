@@ -1,3 +1,4 @@
+import json
 from django.test import TestCase
 from django import forms
 from djangorestframework.compat import RequestFactory
@@ -28,5 +29,8 @@ class UploadFilesTests(TestCase):
         request = self.factory.post('/', {'file': file})
         view = MockView.as_view()
         response = view(request)
-        self.assertEquals(response.content, '{"FILE_CONTENT": "stuff", "FILE_NAME": "stuff.txt"}')
+        self.assertEquals(
+            json.loads(response.content),
+            json.loads('{"FILE_CONTENT": "stuff", "FILE_NAME": "stuff.txt"}')
+        )
 

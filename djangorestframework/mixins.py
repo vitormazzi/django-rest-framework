@@ -181,7 +181,7 @@ class RequestMixin(object):
                 return parser.parse(stream)
 
         raise ErrorResponse(status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
-                            {'error': 'Unsupported media type in request \'%s\'.' % 
+                            {'error': 'Unsupported media type in request \'%s\'.' %
                             content_type})
 
     @property

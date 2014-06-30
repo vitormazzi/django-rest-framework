@@ -59,8 +59,8 @@ class TestContentParsing(TestCase):
         """Ensure view.RAW_CONTENT returns content for PUT request with form content."""
         form_data = {'qwerty': 'uiop'}
         view.parsers = (FormParser, MultiPartParser)
-        view.request = self.req.put('/', data=form_data)
-        self.assertEqual(view.DATA.items(), form_data.items())
+        view.request = self.req.put('/', data=urlencode(form_data), content_type='application/x-www-form-urlencoded')
+        self.assertEqual(view.DATA, {'qwerty': ['uiop']})
 
     def ensure_determines_non_form_content_PUT(self, view):
         """Ensure view.RAW_CONTENT returns content for PUT request with non-form content."""
@@ -148,8 +148,8 @@ class TestContentParsing(TestCase):
 
         view.request = self.req.post('/', data=form_data)
 
-        self.assertEqual(view.DATA.items(), data.items())
-        self.assertEqual(view.request.POST.items(), form_data.items())
+        self.assertEqual(sorted(view.DATA.items()), sorted(data.items()))
+        self.assertEqual(sorted(view.request.POST.items()), sorted(form_data.items()))
 
     def test_accessing_data_after_post_form(self):
         """Ensures request.DATA can be accessed after request.POST in form request"""
@@ -174,11 +174,6 @@ class TestContentParsing(TestCase):
 
         view.request = self.req.post('/', content, content_type=content_type)
 
-        post_items = view.request.POST.items()
-
-        self.assertEqual(len(post_items), 1)
-        self.assertEqual(len(post_items[0]), 2)
-        self.assertEqual(post_items[0][0], content)
         self.assertEqual(view.DATA.items(), data.items())
 
     def test_accessing_data_after_post_for_overloaded_json(self):
@@ -197,8 +192,8 @@ class TestContentParsing(TestCase):
 
         view.request = self.req.post('/', data=form_data)
 
-        self.assertEqual(view.request.POST.items(), form_data.items())
-        self.assertEqual(view.DATA.items(), data.items())
+        self.assertEqual(sorted(view.request.POST.items()), sorted(form_data.items()))
+        self.assertEqual(sorted(view.DATA.items()), sorted(data.items()))
 
 class TestContentParsingWithAuthentication(TestCase):
     urls = 'djangorestframework.tests.content'

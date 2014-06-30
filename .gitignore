@@ -1,20 +1,60 @@
+*.py[cod]
+
+# C extensions
+*.so
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
+__pycache__
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+
+# Translations
+*.mo
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
 *.pyc
-*.db
+*.pyo
 *~
-.*
-
-assetplatform.egg-info/*
+*.bak
+*.kpf
+*swp
+*.sqlite
+*.log
+.DS_Store
+_build
+tmp
+devel.py
+docs/sphinx/build
+/pip-log.txt
+bin
+lib
+lib64
+local
+build
+share
+include
+.Python
+distribute*.tar.gz
 coverage.xml
-env
-docs/build
-html
-htmlcov
-examples/media/pygments/[A-Za-z0-9]*
-examples/media/objectstore/[A-Za-z0-9]*
-build/*
-dist/*
-xmlrunner/*
-djangorestframework.egg-info/*
-MANIFEST
-
-!.gitignore
