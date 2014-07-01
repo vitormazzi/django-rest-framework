@@ -196,8 +196,8 @@ class TestContentParsing(TestCase):
 
         view.request = self.req.post('/', data=form_data)
 
-        self.assertEqual(view.request.POST.items(), form_data.items())
-        self.assertEqual(view.DATA.items(), data.items())
+        self.assertEqual(sorted(view.request.POST.items()), sorted(form_data.items()))
+        self.assertEqual(sorted(view.DATA.items()), sorted(data.items()))
 
 class TestContentParsingWithAuthentication(TestCase):
     urls = 'djangorestframework.tests.content'
