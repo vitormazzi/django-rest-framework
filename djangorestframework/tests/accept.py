@@ -1,4 +1,9 @@
-from django.conf.urls import patterns, url, include
+try:
+    from django.conf.urls import patterns, url, include
+except ImportError:
+    # Django < 1.4
+    from django.conf.urls.defaults import patterns, url, include
+
 from django.test import TestCase
 from djangorestframework.compat import RequestFactory
 from djangorestframework.views import View

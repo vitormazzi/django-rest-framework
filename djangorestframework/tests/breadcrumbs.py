@@ -1,4 +1,9 @@
-from django.conf.urls import patterns, url
+try:
+    from django.conf.urls import patterns, url
+except ImportError:
+    # Django < 1.4
+    from django.conf.urls.defaults import patterns, url
+
 from django.test import TestCase
 from djangorestframework.utils.breadcrumbs import get_breadcrumbs
 from djangorestframework.views import View

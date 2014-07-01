@@ -1,5 +1,10 @@
 import json
-from django.conf.urls import patterns
+try:
+    from django.conf.urls import patterns
+except ImportError:
+    # Django < 1.4
+    from django.conf.urls.defaults import patterns
+
 from django.contrib.auth.models import User
 from django.test import Client, TestCase
 

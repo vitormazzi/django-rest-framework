@@ -2,7 +2,12 @@
 Tests for content parsing, and form-overloaded content parsing.
 """
 from urllib import urlencode
-from django.conf.urls import patterns
+try:
+    from django.conf.urls import patterns
+except ImportError:
+    # Django < 1.4
+    from django.conf.urls.defaults import patterns
+
 from django.contrib.auth.models import User
 from django.test import TestCase, Client
 from djangorestframework import status

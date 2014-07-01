@@ -1,4 +1,9 @@
-from django.conf.urls import patterns, url
+try:
+    from django.conf.urls import patterns, url
+except ImportError:
+    # Django < 1.4
+    from django.conf.urls.defaults import patterns, url
+
 from django.forms import ModelForm
 from django.contrib.auth.models import Group, User
 from djangorestframework.resources import ModelResource
