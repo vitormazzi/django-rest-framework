@@ -154,7 +154,7 @@ class MockPaginatorView(PaginatorMixin, View):
     total = 60
 
     def get(self, request):
-        return range(0, self.total)
+        return list(range(0, self.total))
 
     def post(self, request):
         return Response(status.HTTP_201_CREATED, {'status': 'OK'})
@@ -175,7 +175,7 @@ class TestPagination(TestCase):
         self.assertEqual(MockPaginatorView.total, content['total'])
         self.assertEqual(MockPaginatorView.limit, content['per_page'])
 
-        self.assertEqual(range(0, MockPaginatorView.limit), content['results'])
+        self.assertEqual(list(range(0, MockPaginatorView.limit)), content['results'])
 
     def test_overwriting_limit(self):
         """ Tests if the limit can be overwritten """
@@ -189,7 +189,7 @@ class TestPagination(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(content['per_page'], limit)
 
-        self.assertEqual(range(0, limit), content['results'])
+        self.assertEqual(list(range(0, limit)), content['results'])
 
     def test_limit_param(self):
         """ Tests if the client can set the limit """
@@ -255,7 +255,7 @@ class TestPagination(TestCase):
         response = MockPaginatorView.as_view()(request)
         content = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(range(0, MockPaginatorView.limit), content['results'])
+        self.assertEqual(list(range(0, MockPaginatorView.limit)), content['results'])
 
         num_pages = content['pages']
 
@@ -263,7 +263,7 @@ class TestPagination(TestCase):
         response = MockPaginatorView.as_view()(request)
         content = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(range(MockPaginatorView.limit*(num_pages-1), MockPaginatorView.total), content['results'])
+        self.assertEqual(list(range(MockPaginatorView.limit*(num_pages-1), MockPaginatorView.total)), content['results'])
 
         request = self.req.get('/paginator/?page=%d' % (num_pages + 1,))
         response = MockPaginatorView.as_view()(request)

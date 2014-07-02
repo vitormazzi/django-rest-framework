@@ -114,7 +114,7 @@ class Serializer(object):
             default = self.get_default_fields(obj)
             include = self.include or ()
             exclude = self.exclude or ()
-            fields = set(default + list(include)) - set(exclude)
+            fields = set(list(default) + list(include)) - set(exclude)
 
         return fields
 
@@ -127,7 +127,7 @@ class Serializer(object):
             opts = obj._meta
             return [field.name for field in opts.fields + opts.many_to_many]
         else:
-            return obj.keys()
+            return list(obj.keys())
 
     def get_related_serializer(self, info):
         # If an element in `fields` is a 2-tuple of (str, tuple)

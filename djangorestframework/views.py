@@ -252,7 +252,7 @@ class View(ResourceMixin, RequestMixin, ResponseMixin, AuthMixin, DjangoView):
         form = self.get_bound_form()
         if form is not None:
             field_name_types = {}
-            for name, field in form.fields.items():
+            for name, field in list(form.fields.items()):
                 field_name_types[name] = field.__class__.__name__
             response_obj['fields'] = field_name_types
         # Note 'ErrorResponse' is misleading, it's just any response

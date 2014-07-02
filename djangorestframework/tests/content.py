@@ -53,7 +53,7 @@ class TestContentParsing(TestCase):
         form_data = {'qwerty': 'uiop'}
         view.parsers = (FormParser, MultiPartParser)
         view.request = self.req.post('/', data=form_data)
-        self.assertEqual(view.DATA.items(), form_data.items())
+        self.assertEqual(list(view.DATA.items()), list(form_data.items()))
 
     def ensure_determines_non_form_content_POST(self, view):
         """Ensure view.RAW_CONTENT returns content for POST request with non-form content."""
@@ -120,8 +120,8 @@ class TestContentParsing(TestCase):
         view.parsers = (FormParser, MultiPartParser)
         view.request = self.req.post('/', data=form_data)
 
-        self.assertEqual(view.DATA.items(), form_data.items())
-        self.assertEqual(view.request.POST.items(), form_data.items())
+        self.assertEqual(list(view.DATA.items()), list(form_data.items()))
+        self.assertEqual(list(view.request.POST.items()), list(form_data.items()))
 
     @unittest.skip('This test was disabled some time ago for some reason')
     def test_accessing_post_after_data_for_json(self):
@@ -137,8 +137,8 @@ class TestContentParsing(TestCase):
 
         view.request = self.req.post('/', content, content_type=content_type)
 
-        self.assertEqual(view.DATA.items(), data.items())
-        self.assertEqual(view.request.POST.items(), [])
+        self.assertEqual(list(view.DATA.items()), list(data.items()))
+        self.assertEqual(list(view.request.POST.items()), [])
 
     def test_accessing_post_after_data_for_overloaded_json(self):
         """Ensures request.POST can be accessed after request.DATA in overloaded json request"""
@@ -166,8 +166,8 @@ class TestContentParsing(TestCase):
         view.parsers = (FormParser, MultiPartParser)
         view.request = self.req.post('/', data=form_data)
 
-        self.assertEqual(view.request.POST.items(), form_data.items())
-        self.assertEqual(view.DATA.items(), form_data.items())
+        self.assertEqual(list(view.request.POST.items()), list(form_data.items()))
+        self.assertEqual(list(view.DATA.items()), list(form_data.items()))
 
     def test_accessing_data_after_post_for_json(self):
         """Ensures request.DATA can be accessed after request.POST in json request"""
@@ -182,7 +182,7 @@ class TestContentParsing(TestCase):
 
         view.request = self.req.post('/', content, content_type=content_type)
 
-        self.assertEqual(view.DATA.items(), data.items())
+        self.assertEqual(list(view.DATA.items()), list(data.items()))
 
     def test_accessing_data_after_post_for_overloaded_json(self):
         """Ensures request.DATA can be accessed after request.POST in overloaded json request"""

@@ -170,7 +170,7 @@ class MultiPartParser(BaseParser):
             return django_parser.parse()
         except MultiPartParserError as exc:
             raise ErrorResponse(status.HTTP_400_BAD_REQUEST,
-                                {'detail': 'multipart parse error - %s' % unicode(exc)})
+                                {'detail': 'multipart parse error - %s' % str(exc)})
 
 
 class XMLParser(BaseParser):
@@ -190,7 +190,7 @@ class XMLParser(BaseParser):
         try:
           tree = ET.parse(stream)
         except (ExpatError, ETParseError, ValueError) as exc:
-          content = {'detail': 'XML parse error - %s' % unicode(exc)}
+          content = {'detail': 'XML parse error - %s' % str(exc)}
           raise ErrorResponse(status.HTTP_400_BAD_REQUEST, content)
         data = self._xml_convert(tree.getroot())
 

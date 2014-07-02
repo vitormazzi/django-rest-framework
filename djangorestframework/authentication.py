@@ -7,6 +7,7 @@ The set of authentication methods which are used is then specified by setting th
 :attr:`authentication` attribute on the :class:`View` class, and listing a set of :class:`authentication` classes.
 """
 
+from django.conf import settings
 from django.contrib.auth import authenticate
 from djangorestframework.compat import CsrfViewMiddleware
 import base64
@@ -65,7 +66,7 @@ class BasicAuthentication(BaseAuthentication):
             auth = request.META['HTTP_AUTHORIZATION'].split()
             if len(auth) == 2 and auth[0].lower() == "basic":
                 try:
-                    auth_parts = base64.b64decode(auth[1]).partition(':')
+                    auth_parts = base64.b64decode(auth[1].encode(settings.DEFAULT_CHARSET)).partition(b':')
                 except TypeError:
                     return None
 

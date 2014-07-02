@@ -59,7 +59,7 @@ class XML2Dict(object):
         # Save attrs and text, hope there will not be a child with same name
         if node.text:
             node_tree = node.text
-        for (k,v) in node.attrib.items():
+        for (k,v) in list(node.attrib.items()):
             k,v = self._namespace_split(k, v)
             node_tree[k] = v
         #Save childrens
@@ -114,7 +114,7 @@ class XMLRenderer():
                 xml.endElement("list-item")
 
         elif isinstance(data, dict):
-            for key, value in data.iteritems():
+            for key, value in list(data.items()):
                 xml.startElement(key, {})
                 self._to_xml(xml, value)
                 xml.endElement(key)

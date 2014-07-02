@@ -261,7 +261,7 @@ class ResponseMixin(object):
 
         # Build the HTTP Response
         resp = HttpResponse(content, mimetype=response.media_type, status=response.status)
-        for (key, val) in response.headers.items():
+        for (key, val) in list(response.headers.items()):
             resp[key] = val
 
         return resp
@@ -507,7 +507,7 @@ class ModelMixin(object):
                 tmp[field.name + '_id'] = tmp[field.name]
                 del tmp[field.name]
 
-        all_kw_args = dict(content.items() + tmp.items())
+        all_kw_args = dict(list(content.items()) + list(tmp.items()))
 
         return all_kw_args
 
@@ -600,7 +600,7 @@ class UpdateModelMixin(ModelMixin):
         try:
             self.model_instance = self.get_instance(**query_kwargs)
 
-            for (key, val) in self.CONTENT.items():
+            for (key, val) in list(self.CONTENT.items()):
                 setattr(self.model_instance, key, val)
         except model.DoesNotExist:
             self.model_instance = model(**self.get_instance_data(model, self.CONTENT, *args, **kwargs))

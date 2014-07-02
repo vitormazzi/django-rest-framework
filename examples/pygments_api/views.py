@@ -1,4 +1,3 @@
-from __future__ import with_statement  # for python 2.5
 from django.conf import settings
 
 from djangorestframework.resources import FormResource
@@ -12,7 +11,7 @@ from pygments.formatters import HtmlFormatter
 from pygments.lexers import get_lexer_by_name
 from pygments import highlight
 
-from forms import PygmentsForm
+from .forms import PygmentsForm
 
 import os
 import uuid

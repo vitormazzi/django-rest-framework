@@ -102,7 +102,7 @@ except ImportError:
             """
             # Go through keyword arguments, and either save their values to our
             # instance, or raise an error.
-            for key, value in kwargs.iteritems():
+            for key, value in list(kwargs.items()):
                 setattr(self, key, value)
 
         # @classonlymethod - We'll just us classmethod instead if running Django <= 1.2
@@ -167,7 +167,10 @@ else:
     import re
     import random
     import logging
-    import urlparse
+    try:
+        from urlparse import urlparse
+    except ImportError:
+        from urllib.parse import urlparse
 
     from django.conf import settings
     from django.core.urlresolvers import get_callable
@@ -188,7 +191,7 @@ else:
         """
         Checks if two URLs are 'same-origin'
         """
-        p1, p2 = urlparse.urlparse(url1), urlparse.urlparse(url2)
+        p1, p2 = urlparse(url1), urlparse(url2)
         return p1[0:2] == p2[0:2]
 
     def constant_time_compare(val1, val2):

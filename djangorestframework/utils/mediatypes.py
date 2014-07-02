@@ -81,7 +81,7 @@ class _MediaType(object):
 
     def match(self, other):
         """Return true if this MediaType satisfies the given MediaType."""
-        for key in self.params.keys():
+        for key in list(self.params.keys()):
             if key != 'q' and other.params.get(key, None) != self.params.get(key, None):
                 return False
 
@@ -102,15 +102,12 @@ class _MediaType(object):
             return 0
         elif self.sub_type == '*':
             return 1
-        elif not self.params or self.params.keys() == ['q']:
+        elif not self.params or list(self.params.keys()) == ['q']:
             return 2
         return 3
 
     def __str__(self):
-        return unicode(self).encode('utf-8')
-
-    def __unicode__(self):
         ret = "%s/%s" % (self.main_type, self.sub_type)
-        for key, val in self.params.items():
+        for key, val in list(self.params.items()):
             ret += "; %s=%s" % (key, val)
-        return ret
+        return ret.encode('utf-8')

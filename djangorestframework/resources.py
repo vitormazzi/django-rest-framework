@@ -162,9 +162,9 @@ class FormResource(Resource):
 
             # Add standard field errors
             field_errors = dict(
-                (key, map(unicode, val))
+                (key, list(map(str, val)))
                 for (key, val)
-                in bound_form.errors.iteritems()
+                in list(bound_form.errors.items())
                 if not key.startswith('__')
             )
 
