@@ -36,7 +36,7 @@ class TestPygmentsExample(TestCase):
             request = self.factory.post('/pygments', data=form_data)
             view = views.PygmentsRoot.as_view()
             response = view(request)
-            locations.append(list(response.items())[2][1])
+            locations.append(sorted(list(response.items()))[2][1])
             import time
             time.sleep(.1)
         request = self.factory.get('/pygments')
