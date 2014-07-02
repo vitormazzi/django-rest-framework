@@ -1,7 +1,10 @@
 """
 Tests for content parsing, and form-overloaded content parsing.
 """
-from urllib import urlencode
+try:
+    from urllib import urlencode
+except ImportError:
+    from urllib.parse import urlencode
 try:
     from django.conf.urls import patterns
 except ImportError:

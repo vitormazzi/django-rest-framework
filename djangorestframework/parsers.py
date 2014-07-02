@@ -78,7 +78,7 @@ class JSONParser(BaseParser):
     Parses JSON-serialized data.
     """
 
-    media_type = 'application/json'
+    media_type = b'application/json'
 
     def parse(self, stream):
         """
@@ -89,9 +89,9 @@ class JSONParser(BaseParser):
         """
         try:
             return (json.load(stream), None)
-        except ValueError, exc:
+        except ValueError as exc:
             raise ErrorResponse(status.HTTP_400_BAD_REQUEST,
-                                {'detail': 'JSON parse error - %s' % unicode(exc)})
+                                {'detail': 'JSON parse error - %s' % str(exc)})
 
 
 class YAMLParser(BaseParser):
@@ -99,7 +99,7 @@ class YAMLParser(BaseParser):
     Parses YAML-serialized data.
     """
 
-    media_type = 'application/yaml'
+    media_type = b'application/yaml'
 
     def parse(self, stream):
         """
@@ -110,8 +110,8 @@ class YAMLParser(BaseParser):
         """
         try:
             return (yaml.safe_load(stream), None)
-        except (ValueError, yaml.parser.ParserError), exc:
-            content = {'detail': 'YAML parse error - %s' % unicode(exc)}
+        except (ValueError, yaml.parser.ParserError) as exc:
+            content = {'detail': 'YAML parse error - %s' % str(exc)}
             raise ErrorResponse(status.HTTP_400_BAD_REQUEST, content)
 
 
@@ -120,7 +120,7 @@ class PlainTextParser(BaseParser):
     Plain text parser.
     """
 
-    media_type = 'text/plain'
+    media_type = b'text/plain'
 
     def parse(self, stream):
         """
@@ -137,7 +137,7 @@ class FormParser(BaseParser):
     Parser for form data.
     """
 
-    media_type = 'application/x-www-form-urlencoded'
+    media_type = b'application/x-www-form-urlencoded'
 
     def parse(self, stream):
         """
@@ -155,7 +155,7 @@ class MultiPartParser(BaseParser):
     Parser for multipart form data, which may include file data.
     """
 
-    media_type = 'multipart/form-data'
+    media_type = b'multipart/form-data'
 
     def parse(self, stream):
         """
@@ -168,7 +168,7 @@ class MultiPartParser(BaseParser):
         try:
             django_parser = DjangoMultiPartParser(self.view.request.META, stream, upload_handlers)
             return django_parser.parse()
-        except MultiPartParserError, exc:
+        except MultiPartParserError as exc:
             raise ErrorResponse(status.HTTP_400_BAD_REQUEST,
                                 {'detail': 'multipart parse error - %s' % unicode(exc)})
 
@@ -178,7 +178,7 @@ class XMLParser(BaseParser):
     XML parser.
     """
 
-    media_type = 'application/xml'
+    media_type = b'application/xml'
 
     def parse(self, stream):
         """
@@ -189,7 +189,7 @@ class XMLParser(BaseParser):
         """
         try:
           tree = ET.parse(stream)
-        except (ExpatError, ETParseError, ValueError), exc:
+        except (ExpatError, ETParseError, ValueError) as exc:
           content = {'detail': 'XML parse error - %s' % unicode(exc)}
           raise ErrorResponse(status.HTTP_400_BAD_REQUEST, content)
         data = self._xml_convert(tree.getroot())

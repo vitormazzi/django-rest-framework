@@ -153,12 +153,12 @@ class FormResource(Resource):
                 return self._validate(data, files, allowed_extra_fields, '_fake_data')
 
             # If we've already set fake_dict and we're still here, fallback gracefully.
-            detail = {u'errors': [u'No content was supplied.']}
+            detail = {'errors': ['No content was supplied.']}
 
         else:
             # Add any non-field errors
             if bound_form.non_field_errors():
-                detail[u'errors'] = bound_form.non_field_errors()
+                detail['errors'] = bound_form.non_field_errors()
 
             # Add standard field errors
             field_errors = dict(
@@ -170,10 +170,10 @@ class FormResource(Resource):
 
             # Add any unknown field errors
             for key in unknown_fields:
-                field_errors[key] = [u'This field does not exist.']
+                field_errors[key] = ['This field does not exist.']
 
             if field_errors:
-                detail[u'field_errors'] = field_errors
+                detail['field_errors'] = field_errors
 
         # Return HTTP 400 response (BAD REQUEST)
         raise ErrorResponse(400, detail)

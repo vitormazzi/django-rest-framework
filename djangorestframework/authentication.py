@@ -56,7 +56,10 @@ class BasicAuthentication(BaseAuthentication):
         Returns a :obj:`User` if a correct username and password have been supplied
         using HTTP Basic authentication.  Otherwise returns :const:`None`.
         """
-        from django.utils.encoding import smart_unicode, DjangoUnicodeDecodeError
+        try:
+            from django.utils.encoding import smart_text, DjangoUnicodeDecodeError
+        except ImportError:
+            from django.utils.encoding import smart_unicode as smart_text, DjangoUnicodeDecodeError
 
         if 'HTTP_AUTHORIZATION' in request.META:
             auth = request.META['HTTP_AUTHORIZATION'].split()
@@ -67,7 +70,7 @@ class BasicAuthentication(BaseAuthentication):
                     return None
 
                 try:
-                    uname, passwd = smart_unicode(auth_parts[0]), smart_unicode(auth_parts[2])
+                    uname, passwd = smart_text(auth_parts[0]), smart_text(auth_parts[2])
                 except DjangoUnicodeDecodeError:
                     return None
 

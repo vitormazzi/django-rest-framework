@@ -7,6 +7,7 @@ except ImportError:
 
 from django.contrib.auth.models import User
 from django.test import Client, TestCase
+from django.conf import settings
 
 from django.utils import simplejson as json
 
@@ -43,7 +44,7 @@ class BasicAuthTests(TestCase):
 
     def test_post_form_passing_basic_auth(self):
         """Ensure POSTing json over basic auth with correct credentials passes and does not require CSRF"""
-        auth = 'Basic %s' % base64.encodestring('%s:%s' % (self.username, self.password)).strip()
+        auth = 'Basic %s' % base64.encodestring(('%s:%s' % (self.username, self.password))).strip()
         response = self.csrf_client.post('/', {'example': 'example'}, HTTP_AUTHORIZATION=auth)
         self.assertEqual(response.status_code, 200)
 

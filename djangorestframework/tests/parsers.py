@@ -131,7 +131,14 @@
 #        self.assertEqual(data['key1'], 'val1')
 #        self.assertEqual(files['file1'].read(), 'blablabla')
 
-from StringIO import StringIO
+try:
+    from cStringIO import StringIO
+except ImportError:
+    try:
+        from StringIO import StringIO
+    except ImportError:
+        from io import StringIO
+
 from cgi import parse_qs
 from django import forms
 from django.test import TestCase
@@ -163,13 +170,13 @@ class TestXMLParser(TestCase):
             '<root>'
             '<field_a>121.0</field_a>'
             '<field_b>dasd</field_b>'
-            '<field_c></field_c>'	
+            '<field_c></field_c>'
             '<field_d>2011-12-25 12:45:00</field_d>'
             '</root>'
-        )	
-        self._data = {	
+        )
+        self._data = {
             'field_a': 121,
-            'field_b': 'dasd',	
+            'field_b': 'dasd',
             'field_c': None,
             'field_d': datetime.datetime(2011, 12, 25, 12, 45, 00)
         }
@@ -183,21 +190,21 @@ class TestXMLParser(TestCase):
             '</sub_data_list>'
             '<name>name</name>'
             '</root>'
-        )    
+        )
         self._complex_data = {
-            "creation_date": datetime.datetime(2011, 12, 25, 12, 45, 00), 
-            "name": "name", 
+            "creation_date": datetime.datetime(2011, 12, 25, 12, 45, 00),
+            "name": "name",
             "sub_data_list": [
                 {
-                    "sub_id": 1, 
+                    "sub_id": 1,
                     "sub_name": "first"
-                }, 
+                },
                 {
-                    "sub_id": 2, 
+                    "sub_id": 2,
                     "sub_name": "second"
                 }
             ]
-        }                               
+        }
 
     def test_parse(self):
         parser = XMLParser(None)

@@ -4,7 +4,10 @@ from django import forms
 from djangorestframework.compat import RequestFactory
 from djangorestframework.views import View
 from djangorestframework.resources import FormResource
-import StringIO
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 class UploadFilesTests(TestCase):
     """Check uploading of files"""
@@ -24,7 +27,7 @@ class UploadFilesTests(TestCase):
                 return {'FILE_NAME': self.CONTENT['file'].name,
                         'FILE_CONTENT': self.CONTENT['file'].read()}
 
-        file = StringIO.StringIO('stuff')
+        file = StringIO('stuff')
         file.name = 'stuff.txt'
         request = self.factory.post('/', {'file': file})
         view = MockView.as_view()

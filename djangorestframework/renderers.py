@@ -19,7 +19,10 @@ from djangorestframework.utils.mediatypes import get_media_type_params, add_medi
 from djangorestframework import VERSION
 
 import string
-from urllib import quote_plus
+try:
+    from urllib import quote_plus
+except ImportError:
+    from urllib.parse import quote_plus
 
 __all__ = (
     'BaseRenderer',
@@ -90,7 +93,7 @@ class JSONRenderer(BaseRenderer):
     Renderer which serializes to JSON
     """
 
-    media_type = 'application/json'
+    media_type = b'application/json'
     format = 'json'
 
     def render(self, obj=None, media_type=None):
@@ -110,15 +113,16 @@ class JSONRenderer(BaseRenderer):
         except (ValueError, TypeError):
             indent = None
 
-        return json.dumps(obj, cls=DateTimeAwareJSONEncoder, indent=indent, sort_keys=sort_keys)
+        result = json.dumps(obj, cls=DateTimeAwareJSONEncoder, indent=indent, sort_keys=sort_keys)
 
+        return result
 
 class JSONPRenderer(JSONRenderer):
     """
     Renderer which serializes to JSONP
     """
 
-    media_type = 'application/json-p'
+    media_type = b'application/json-p'
     format = 'json-p'
     renderer_class = JSONRenderer
     callback_parameter = 'callback'
@@ -140,7 +144,7 @@ class XMLRenderer(BaseRenderer):
     Renderer which serializes to XML.
     """
 
-    media_type = 'application/xml'
+    media_type = b'application/xml'
     format = 'xml'
 
     def render(self, obj=None, media_type=None):
@@ -157,7 +161,7 @@ class YAMLRenderer(BaseRenderer):
     Renderer which serializes to YAML.
     """
 
-    media_type = 'application/yaml'
+    media_type = b'application/yaml'
     format = 'yaml'
 
     def render(self, obj=None, media_type=None):
@@ -365,7 +369,7 @@ class DocumentingHTMLRenderer(DocumentingTemplateRenderer):
     See the examples at http://api.django-rest-framework.org to see this in action.
     """
 
-    media_type = 'text/html'
+    media_type = b'text/html'
     format = 'html'
     template = 'djangorestframework/api.html'
 
@@ -377,7 +381,7 @@ class DocumentingXHTMLRenderer(DocumentingTemplateRenderer):
     given their Accept headers.
     """
 
-    media_type = 'application/xhtml+xml'
+    media_type = b'application/xhtml+xml'
     format = 'xhtml'
     template = 'djangorestframework/api.html'
 
@@ -389,7 +393,7 @@ class DocumentingPlainTextRenderer(DocumentingTemplateRenderer):
     Useful for browsing an API with command line tools.
     """
 
-    media_type = 'text/plain'
+    media_type = b'text/plain'
     format = 'txt'
     template = 'djangorestframework/api.txt'
 

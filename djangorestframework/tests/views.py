@@ -10,13 +10,20 @@ from django.test import TestCase
 from django.test import Client
 from django import forms
 from django.db import models
+from django.conf import settings
 
 from djangorestframework.views import View
 from djangorestframework.parsers import JSONParser
 from djangorestframework.resources import ModelResource
 from djangorestframework.views import ListOrCreateModelView, InstanceModelView
 
-from StringIO import StringIO
+try:
+    from cStringIO import StringIO
+except ImportError:
+    try:
+        from StringIO import StringIO
+    except ImportError:
+        from io import StringIO
 
 
 class MockView(View):
@@ -68,7 +75,7 @@ class BaseViewTests(TestCase):
         response = self.client.options('/mock/final/')
         self.assertEqual(response['Content-Type'].split(';')[0], "application/json")
         parser = JSONParser(None)
-        (data, files) = parser.parse(StringIO(response.content))
+        (data, files) = parser.parse(StringIO(response.content.decode(settings.DEFAULT_CHARSET)))
         self.assertEqual(data['test'], 'passed')
 
     def test_options_method_simple_view(self):
@@ -112,7 +119,7 @@ class BaseViewTests(TestCase):
         self.assertEqual(response.status_code, status)
         self.assertEqual(response['Content-Type'].split(';')[0], mime_type)
         parser = JSONParser(None)
-        (data, files) = parser.parse(StringIO(response.content))
+        (data, files) = parser.parse(StringIO(response.content.decode(settings.DEFAULT_CHARSET)))
         self.assertTrue('application/json' in data['renders'])
         self.assertEqual(name, data['name'])
         self.assertEqual(description, data['description'])

@@ -1,5 +1,9 @@
 import django
-from django.utils.encoding import smart_unicode
+try:
+    from django.utils.encoding import smart_text
+except ImportError:
+    from django.utils.encoding import smart_unicode as smart_text
+
 from django.utils.xmlutils import SimplerXMLGenerator
 from django.core.urlresolvers import resolve
 from django.conf import settings
@@ -9,8 +13,8 @@ from djangorestframework.compat import StringIO
 import re
 import xml.etree.ElementTree as ET
 
-from mediatypes import media_type_matches, is_form_media_type
-from mediatypes import add_media_type_param, get_media_type_params, order_by_precedence
+from .mediatypes import media_type_matches, is_form_media_type
+from .mediatypes import add_media_type_param, get_media_type_params, order_by_precedence
 
 MSIE_USER_AGENT_REGEX = re.compile(r'^Mozilla/[0-9]+\.[0-9]+ \([^)]*; MSIE [0-9]+\.[0-9]+[a-z]?;[^)]*\)(?!.* Opera )')
 
@@ -120,7 +124,7 @@ class XMLRenderer():
             pass
 
         else:
-            xml.characters(smart_unicode(data))
+            xml.characters(smart_text(data))
 
     def dict2xml(self, data):
         stream = StringIO.StringIO()

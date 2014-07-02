@@ -3,7 +3,10 @@ Customizable serialization.
 """
 from django.db import models
 from django.db.models.query import QuerySet, RawQuerySet
-from django.utils.encoding import smart_unicode, is_protected_type, smart_str
+try:
+    from django.utils.encoding import smart_text, is_protected_type, smart_str
+except ImportError:
+    from django.utils.encoding import smart_unicode as smart_text, is_protected_type, smart_str
 
 import inspect
 import types
@@ -252,7 +255,7 @@ class Serializer(object):
         """
         Convert any unhandled object into a serializable representation.
         """
-        return smart_unicode(obj, strings_only=True)
+        return smart_text(obj, strings_only=True)
 
     def serialize(self, obj, request=None):
         """

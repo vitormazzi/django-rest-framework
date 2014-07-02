@@ -5,6 +5,7 @@ See http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.7
 """
 
 from django.http.multipartparser import parse_header
+from django.conf import settings
 
 
 def media_type_matches(lhs, rhs):
@@ -72,6 +73,8 @@ class _MediaType(object):
     def __init__(self, media_type_str):
         if media_type_str is None:
             media_type_str = ''
+        if not isinstance(media_type_str, bytes):
+            media_type_str = media_type_str.encode(settings.DEFAULT_CHARSET)
         self.orig = media_type_str
         self.full_type, self.params = parse_header(media_type_str)
         self.main_type, sep, self.sub_type = self.full_type.partition('/')

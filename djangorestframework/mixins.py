@@ -7,6 +7,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.core.paginator import Paginator
 from django.db.models.fields.related import ForeignKey
 from django.http import HttpResponse
+from django.conf import settings
 from urlobject import URLObject
 
 from djangorestframework import status
@@ -16,7 +17,13 @@ from djangorestframework.response import Response, ErrorResponse
 from djangorestframework.utils import as_tuple, MSIE_USER_AGENT_REGEX
 from djangorestframework.utils.mediatypes import is_form_media_type, order_by_precedence
 
-from StringIO import StringIO
+try:
+    from cStringIO import StringIO
+except ImportError:
+    try:
+        from StringIO import StringIO
+    except ImportError:
+        from io import StringIO
 
 
 __all__ = (
@@ -189,7 +196,7 @@ class RequestMixin(object):
         """
         Return a list of all the media types that this view can parse.
         """
-        return [parser.media_type for parser in self.parsers]
+        return [parser.media_type.decode(settings.DEFAULT_CHARSET) for parser in self.parsers]
 
     @property
     def _default_parser(self):
@@ -237,7 +244,7 @@ class ResponseMixin(object):
 
         try:
             renderer, media_type = self._determine_renderer(self.request)
-        except ErrorResponse, exc:
+        except ErrorResponse as exc:
             renderer = self._default_renderer(self)
             media_type = renderer.media_type
             response = exc.response
@@ -283,7 +290,7 @@ class ResponseMixin(object):
             accept_list = [token.strip() for token in request.META['HTTP_ACCEPT'].split(',')]
         else:
             # No accept header specified
-            accept_list = ['*/*']
+            accept_list = [b'*/*']
 
         # Check the acceptable media types against each renderer,
         # attempting more specific media types first
@@ -307,14 +314,14 @@ class ResponseMixin(object):
         """
         Return an list of all the media types that this view can render.
         """
-        return [renderer.media_type for renderer in self.renderers]
+        return [renderer.media_type.decode(settings.DEFAULT_CHARSET) for renderer in self.renderers]
 
     @property
     def _rendered_formats(self):
         """
         Return a list of all the formats that this view can render.
         """
-        return [renderer.format for renderer in self.renderers]
+        return [renderer.format.decode(settings.DEFAULT_CHARSET) for renderer in self.renderers]
 
     @property
     def _default_renderer(self):

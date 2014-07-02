@@ -17,7 +17,14 @@ from djangorestframework.parsers import JSONParser, YAMLParser, XMLParser
 from djangorestframework.mixins import ResponseMixin
 from djangorestframework.response import Response
 
-from StringIO import StringIO
+try:
+    from cStringIO import StringIO
+except ImportError:
+    try:
+        from StringIO import StringIO
+    except ImportError:
+        from io import StringIO
+
 import datetime
 from decimal import Decimal
 

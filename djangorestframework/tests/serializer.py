@@ -41,12 +41,12 @@ class TestObjectToData(TestCase):
 
     def test_dict_method_name_collision(self):
         """dict with key that collides with dict method name"""
-        self.assertEquals(self.serialize({'items': 'foo'}), {'items': u'foo'})
-        self.assertEquals(self.serialize({'keys': 'foo'}), {'keys': u'foo'})
-        self.assertEquals(self.serialize({'values': 'foo'}), {'values': u'foo'})
+        self.assertEquals(self.serialize({'items': 'foo'}), {'items': 'foo'})
+        self.assertEquals(self.serialize({'keys': 'foo'}), {'keys': 'foo'})
+        self.assertEquals(self.serialize({'values': 'foo'}), {'values': 'foo'})
 
     def test_ugettext_lazy(self):
-        self.assertEquals(self.serialize(ugettext_lazy('foobar')), u'foobar')
+        self.assertEquals(self.serialize(ugettext_lazy('foobar')), 'foobar')
 
 
 class TestFieldNesting(TestCase):
@@ -82,8 +82,8 @@ class TestFieldNesting(TestCase):
         class SerializerM3(Serializer):
             fields = (('field', ('field2',)),)
 
-        self.assertEqual(SerializerM2().serialize(self.m2), {'field': {'field1': u'foo'}})
-        self.assertEqual(SerializerM3().serialize(self.m3), {'field': {'field2': u'bar'}})
+        self.assertEqual(SerializerM2().serialize(self.m2), {'field': {'field1': 'foo'}})
+        self.assertEqual(SerializerM3().serialize(self.m3), {'field': {'field2': 'bar'}})
 
 
     def test_serializer_class_nesting(self):
@@ -102,8 +102,8 @@ class TestFieldNesting(TestCase):
         class SerializerM3(Serializer):
             fields = [('field', NestedM3)]
 
-        self.assertEqual(SerializerM2().serialize(self.m2), {'field': {'field1': u'foo'}})
-        self.assertEqual(SerializerM3().serialize(self.m3), {'field': {'field2': u'bar'}})
+        self.assertEqual(SerializerM2().serialize(self.m2), {'field': {'field1': 'foo'}})
+        self.assertEqual(SerializerM3().serialize(self.m3), {'field': {'field2': 'bar'}})
 
     @unittest.skip('This test fails randomly. Disabled until we have time to find out the reason')
     def test_serializer_no_fields(self):
@@ -124,8 +124,8 @@ class TestFieldNesting(TestCase):
         class SerializerM3(Serializer):
             fields = [('field', NestedM3)]
 
-        self.assertEqual(SerializerM2().serialize(self.m2), {'field': {'field1': u'foo'}})
-        self.assertEqual(SerializerM3().serialize(self.m3), {'field': {'field2': u'bar'}})
+        self.assertEqual(SerializerM2().serialize(self.m2), {'field': {'field1': 'foo'}})
+        self.assertEqual(SerializerM3().serialize(self.m3), {'field': {'field2': 'bar'}})
 
     def test_serializer_classname_nesting(self):
         """
@@ -143,8 +143,8 @@ class TestFieldNesting(TestCase):
         class NestedM3(Serializer):
             fields = ('field2', )
 
-        self.assertEqual(SerializerM2().serialize(self.m2), {'field': {'field1': u'foo'}})
-        self.assertEqual(SerializerM3().serialize(self.m3), {'field': {'field2': u'bar'}})
+        self.assertEqual(SerializerM2().serialize(self.m2), {'field': {'field1': 'foo'}})
+        self.assertEqual(SerializerM3().serialize(self.m3), {'field': {'field2': 'bar'}})
 
     def test_serializer_overridden_hook_method(self):
         """

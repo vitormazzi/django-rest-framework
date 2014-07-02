@@ -88,7 +88,7 @@ def urlize_quoted_links(text, trim_url_limit=None, nofollow=True, autoescape=Tru
             words[i] = mark_safe(word)
         elif autoescape:
             words[i] = escape(word)
-    return u''.join(words)
+    return ''.join(words)
 
 
 #urlize_quoted_links.needs_autoescape = True
