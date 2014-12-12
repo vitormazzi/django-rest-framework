@@ -11,12 +11,12 @@ Introduction
 
 Django REST framework is a lightweight REST framework for Django, that aims to make it easy to build well-connected, self-describing RESTful Web APIs.
 
-**Browse example APIs created with Django REST framework:** `The Sandbox <http://rest.ep.io/>`_
+**Browse example APIs created with Django REST framework:** `The Sandbox <http://shielded-mountain-6732.herokuapp.com/>`_
 
 Features:
 ---------
 
-* Automatically provides an awesome Django admin style `browse-able self-documenting API <http://rest.ep.io>`_.
+* Automatically provides an awesome Django admin style `browse-able self-documenting API <http://shielded-mountain-6732.herokuapp.com>`_.
 * Clean, simple, views for Resources, using Django's new `class based views <http://docs.djangoproject.com/en/dev/topics/class-based-views/>`_.
 * Support for ModelResources with out-of-the-box default implementations and input validation.
 * Pluggable :mod:`.parsers`, :mod:`renderers`, :mod:`authentication` and :mod:`permissions` - Easy to customise.
@@ -39,8 +39,8 @@ Any and all questions, thoughts, bug reports and contributions are *hugely appre
 Requirements
 ------------
 
-* Python (2.5, 2.6, 2.7 supported)
-* Django (1.2, 1.3, 1.4 supported)
+* Python (2.6+)
+* Django (1.3+)
 * `django.contrib.staticfiles`_ (or `django-staticfiles`_ for Django 1.2)
 * `URLObject`_ >= 2.0.0
 * `Markdown`_ >= 2.1.0 (Optional)
