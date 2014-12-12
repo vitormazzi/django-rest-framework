@@ -5,6 +5,11 @@ Django REST framework
 
 **Author:** Tom Christie.  `Follow me on Twitter <https://twitter.com/_tomchristie>`_.
 
+:build status: |build-image|
+
+.. |build-image| image:: https://secure.travis-ci.org/tomchristie/django-rest-framework.png?branch=master
+                 :target: https://secure.travis-ci.org/tomchristie/django-rest-framework
+
 Overview
 ========
 
@@ -25,8 +30,8 @@ We also have a `Jenkins service <http://jenkins.tibold.nl/job/djangorestframewor
 
 Requirements:
 
-* Python (2.5, 2.6, 2.7 supported)
-* Django (1.2, 1.3, 1.4 supported)
+* Python 2.6+
+* Django 1.3+
 
 
 Installation Notes
