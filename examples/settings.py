@@ -90,6 +90,9 @@ if django.VERSION < (1, 3):
 else:
     staticfiles = 'django.contrib.staticfiles'
 
+if django.VERSION >= (1, 6):
+    TEST_RUNNER = 'django.test.simple.DjangoTestSuiteRunner'
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',

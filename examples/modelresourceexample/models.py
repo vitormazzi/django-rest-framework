@@ -4,7 +4,7 @@ MAX_INSTANCES = 10
 
 
 class MyModel(models.Model):
-    foo = models.BooleanField()
+    foo = models.BooleanField(default=False)
     bar = models.IntegerField(help_text='Must be an integer.')
     baz = models.CharField(max_length=32, help_text='Free text.  Max length 32 chars.')
     created = models.DateTimeField(auto_now_add=True)

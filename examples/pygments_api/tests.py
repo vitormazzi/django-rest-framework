@@ -1,5 +1,5 @@
+import json
 from django.test import TestCase
-from django.utils import simplejson as json
 
 from djangorestframework.compat import RequestFactory
 

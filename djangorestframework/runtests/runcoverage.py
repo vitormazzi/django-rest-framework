@@ -11,6 +11,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'djangorestframework.runtests.settings'
 
 from coverage import coverage
 from itertools import chain
+import django
 
 def main():
     """Run the tests for djangorestframework and generate a coverage report."""
@@ -22,6 +23,8 @@ def main():
     from django.conf import settings
     from django.test.utils import get_runner
     TestRunner = get_runner(settings)
+    if django.VERSION >= (1, 7):
+        django.setup()
 
     if hasattr(TestRunner, 'func_name'):
         # Pre 1.2 test runners were just functions,

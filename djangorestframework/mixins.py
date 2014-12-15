@@ -260,7 +260,7 @@ class ResponseMixin(object):
             content = renderer.render()
 
         # Build the HTTP Response
-        resp = HttpResponse(content, mimetype=response.media_type, status=response.status)
+        resp = HttpResponse(content, content_type=response.media_type, status=response.status)
         for (key, val) in list(response.headers.items()):
             resp[key] = val
 
@@ -571,7 +571,7 @@ class CreateModelMixin(ModelMixin):
         for fieldname in m2m_data:
             manager = getattr(instance, fieldname)
 
-            if hasattr(manager, 'add'):
+            if hasattr(manager, 'add') and not hasattr(manager, 'through'):
                 manager.add(*m2m_data[fieldname][1])
             else:
                 data = {}

@@ -1,8 +1,8 @@
 """Test a range of REST API usage of the example application.
 """
 
+import json
 from django.test import TestCase
-from django.utils import simplejson as json
 
 from djangorestframework.compat import RequestFactory
 from djangorestframework.reverse import reverse

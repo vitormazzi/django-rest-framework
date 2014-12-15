@@ -270,19 +270,19 @@ class TestFormValidation(TestCase):
         validator = self.MockModelResource(self.MockModelFormView())
         self.validation_failed_due_to_multiple_errors_returns_appropriate_message(validator)
 
+class MockModel(models.Model):
+    qwerty = models.CharField(max_length=256)
+    uiop = models.CharField(max_length=256, blank=True)
+
+    @property
+    def readonly(self):
+        return 'read only'
 
 class TestModelFormValidator(TestCase):
     """Tests specific to ModelFormValidatorMixin"""
 
     def setUp(self):
         """Create a validator for a model with two fields and a property."""
-        class MockModel(models.Model):
-            qwerty = models.CharField(max_length=256)
-            uiop = models.CharField(max_length=256, blank=True)
-
-            @property
-            def readonly(self):
-                return 'read only'
 
         class MockResource(ModelResource):
             model = MockModel

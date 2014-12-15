@@ -108,6 +108,7 @@ if django.VERSION < (1, 3):
     INSTALLED_APPS += ('staticfiles',)
 elif django.VERSION >= (1, 6):
     TEST_RUNNER = 'django.test.simple.DjangoTestSuiteRunner'
+
 # If we're running on the Jenkins server we want to archive the coverage reports as XML.
 import os
 if os.environ.get('HUDSON_URL', None):

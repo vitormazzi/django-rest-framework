@@ -2,6 +2,7 @@ import os
 import sys
 os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 
+import django
 from django.conf import settings
 from django.test.utils import get_runner
 from coverage import coverage
@@ -18,6 +19,8 @@ def main():
             continue
         cov_files.extend([os.path.join(path, file) for file in files if file.endswith('.py')])
     TestRunner = get_runner(settings)
+    if django.VERSION >= (1, 7):
+        django.setup()
 
     cov = coverage()
     cov.erase()

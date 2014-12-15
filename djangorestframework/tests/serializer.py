@@ -49,6 +49,16 @@ class TestObjectToData(TestCase):
         self.assertEquals(self.serialize(ugettext_lazy('foobar')), 'foobar')
 
 
+class M1(models.Model):
+    field1 = models.CharField(max_length=256)
+    field2 = models.CharField(max_length=256)
+
+class M2(models.Model):
+    field = models.OneToOneField(M1)
+
+class M3(models.Model):
+    field = models.ForeignKey(M1)
+
 class TestFieldNesting(TestCase):
     """
     Test nesting the fields in the Serializer class
@@ -56,16 +66,6 @@ class TestFieldNesting(TestCase):
     def setUp(self):
         self.serializer = Serializer()
         self.serialize = self.serializer.serialize
-
-        class M1(models.Model):
-            field1 = models.CharField(max_length=256)
-            field2 = models.CharField(max_length=256)
-
-        class M2(models.Model):
-            field = models.OneToOneField(M1)
-
-        class M3(models.Model):
-            field = models.ForeignKey(M1)
 
         self.m1 = M1(field1='foo', field2='bar')
         self.m2 = M2(field=self.m1)

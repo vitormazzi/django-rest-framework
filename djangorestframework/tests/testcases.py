@@ -1,4 +1,5 @@
 # http://djangosnippets.org/snippets/1011/
+import django
 from django.conf import settings
 from django.core.management import call_command
 from django.db.models import loading
@@ -28,7 +29,10 @@ class TestSettingsManager(object):
 
     def syncdb(self):
         loading.cache.loaded = False
-        call_command('syncdb', verbosity=0)
+        if django.VERSION >= (1, 7):
+            call_command('migrate', verbosity=0)
+        else:
+            call_command('syncdb', verbosity=0)
 
     def revert(self):
         for k,v in list(self._original_settings.items()):
