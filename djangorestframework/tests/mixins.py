@@ -1,6 +1,6 @@
 """Tests for the mixin module"""
 from django.test import TestCase
-from django.utils import simplejson as json
+import json
 from djangorestframework import status
 from djangorestframework.compat import RequestFactory
 from django.contrib.auth.models import Group, User

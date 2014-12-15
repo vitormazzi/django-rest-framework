@@ -9,7 +9,7 @@ from django import forms
 from django.conf import settings
 from django.core.serializers.json import DateTimeAwareJSONEncoder
 from django.template import RequestContext, loader
-from django.utils import simplejson as json
+import json
 
 
 from djangorestframework.compat import yaml

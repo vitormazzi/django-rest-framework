@@ -5,7 +5,7 @@ except ImportError:
     from django.conf.urls.defaults import patterns, url
 
 from django.test import TestCase
-from django.utils import simplejson as json
+import json
 
 from djangorestframework.renderers import JSONRenderer
 from djangorestframework.reverse import reverse, reverse_lazy
