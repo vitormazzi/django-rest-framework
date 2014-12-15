@@ -99,6 +99,8 @@ import django
 if django.VERSION < (1, 3):
     INSTALLED_APPS += ('staticfiles',)
 
+if django.VERSION >= (1, 6):
+    TEST_RUNNER = 'django.test.simple.DjangoTestSuiteRunner'
 
 # OAuth support is optional, so we only test oauth if it's installed.
 try:
