@@ -68,7 +68,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
+    #'django.contrib.messages.middleware.MessageMiddleware',
 )
 
 ROOT_URLCONF = 'urls'
@@ -83,24 +83,17 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.messages',
+    #'django.contrib.sites',
+    #'django.contrib.messages',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'djangorestframework',
+    'djangorestframework.tests',
 )
 
 STATIC_URL = '/static/'
-
-import django
-
-if django.VERSION < (1, 3):
-    INSTALLED_APPS += ('staticfiles',)
-
-if django.VERSION >= (1, 6):
-    TEST_RUNNER = 'django.test.simple.DjangoTestSuiteRunner'
 
 # OAuth support is optional, so we only test oauth if it's installed.
 try:
@@ -110,6 +103,11 @@ except ImportError:
 else:
     INSTALLED_APPS += ('oauth_provider',)
 
+import django
+if django.VERSION < (1, 3):
+    INSTALLED_APPS += ('staticfiles',)
+elif django.VERSION >= (1, 6):
+    TEST_RUNNER = 'django.test.simple.DjangoTestSuiteRunner'
 # If we're running on the Jenkins server we want to archive the coverage reports as XML.
 import os
 if os.environ.get('HUDSON_URL', None):
